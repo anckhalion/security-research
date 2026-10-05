@@ -4,7 +4,7 @@
 
 🇬🇧 [English version](README.md)
 
-📄 Paper completo su Zenodo: [DOI da inserire] — [PDF + Markdown italiano](docs/paper_it.md) | [English PDF + Markdown](docs/paper_en.md)
+📄 Paper completo su Zenodo: [10.5281/zenodo.23170945](https://doi.org/10.5281/zenodo.23170945) — [PDF + Markdown italiano](docs/paper_it.md) | [English PDF + Markdown](docs/paper_en.md)
 📰 Articolo divulgativo su Substack: [link da inserire]
 
 ---

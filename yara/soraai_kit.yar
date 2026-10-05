@@ -3,7 +3,7 @@ rule SoraAI_FakeInstaller_Electron_Kit
     meta:
         description = "Rileva artefatti del kit MaaS di falsi installer AI (campagna SoraAI, dicembre 2024)"
         author = "[autore paper Zenodo]"
-        reference = "DOI da inserire"
+        reference = "https://doi.org/10.5281/zenodo.23170945"
         date = "2026-10-05"
         campaign = "A - SoraAI fake installer"
         hash = "5BD2DDD90BB5451BA1CA6662E8F45B2A89DE5F9287CC4F4B5E8E9A68B00A90C6" // app.asar

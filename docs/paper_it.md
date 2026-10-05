@@ -1,6 +1,6 @@
 # Due ondate, un solo brand: analisi forense di una doppia infezione da malvertising a tema "Sora AI" su postazione Windows
 
-**Case study tecnico — bozza v0.1 per deposito Zenodo (DOI da assegnare)**
+**Case study tecnico — v0.1 — Zenodo DOI: 10.5281/zenodo.23170945**
 
 Autore: [da definire — pseudonimo/iniziali]
 Data analisi: 3 ottobre 2026
@@ -239,7 +239,7 @@ Raccomandazioni post-incidente applicate: blocco della carta di credito salvata 
 - Repository GitHub (IoC, YARA, analisi deoffuscazione, documentazione): https://github.com/anckhalion/sora-malvertising-analysis
 - Campione `9a.bat`: condiviso con la comunità di ricerca tramite **MalwareBazaar (abuse.ch)**, identificabile dallo SHA256 `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0` (zip protetto da password, convenzione `infected`).
 - Altre evidenze sensibili (SRUDB.dat, registro completo del log con token): **non pubblicate**; disponibili per ricercatori accreditati su richiesta motivata.
-- Questo paper è depositato su Zenodo con DOI: [da assegnare]
+- Questo paper è depositato su Zenodo con DOI: [10.5281/zenodo.23170945](https://doi.org/10.5281/zenodo.23170945)
 
 ## Appendice A — Timeline consolidata
 

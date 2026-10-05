@@ -1,6 +1,6 @@
 # Two Waves, One Brand: Forensic Analysis of a Double "Sora AI" Malvertising Infection on a Windows Workstation
 
-**Technical case study — draft v0.1 for Zenodo deposit (DOI to be assigned)**
+**Technical case study — v0.1 — Zenodo DOI: 10.5281/zenodo.23170945**
 
 Author: [to be defined — pseudonym/initials]
 Analysis date: 3 October 2026
@@ -239,7 +239,7 @@ Applied post-incident recommendations: blocking the credit card saved in the bro
 - GitHub repository (IoCs, YARA, deobfuscation analysis, documentation): https://github.com/anckhalion/sora-malvertising-analysis
 - `9a.bat` sample: shared with the research community via **MalwareBazaar (abuse.ch)**, identified by SHA256 `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0` (password-protected zip, `infected` convention).
 - Other sensitive evidence (SRUDB.dat, full log with token): **not published**; available to accredited researchers upon motivated request.
-- This paper is deposited on Zenodo with DOI: [to be assigned]
+- This paper is deposited on Zenodo with DOI: [10.5281/zenodo.23170945](https://doi.org/10.5281/zenodo.23170945)
 
 ## Appendix A — Consolidated timeline
 
