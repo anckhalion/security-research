@@ -1,67 +1,44 @@
-# sora-malvertising-analysis
+# Security Research
 
-**Analisi tecnica di una doppia infezione da malvertising a tema "Sora AI" (dicembre 2024 – gennaio 2025): un kit MaaS di falsi installer Electron con esecuzione fileless in Rust e un infostealer Python "Braodo-like" con esfiltrazione via Telegram.**
+**Ricerca indipendente di sicurezza informatica: casi di studio, IoC, regole YARA e metodologia forense. Incidenti reali, documentati dall'infezione alla pubblicazione.**
 
 🇬🇧 [English version](README.md)
 
-📄 Paper completo su Zenodo: [10.5281/zenodo.23170945](https://doi.org/10.5281/zenodo.23170945) — [PDF + Markdown italiano](docs/paper_it.md) | [English PDF + Markdown](docs/paper_en.md)
-📰 Articolo divulgativo su Substack: [link da inserire]
-
 ---
 
-## ⚠️ Disclaimer
+## Il progetto
 
-Questo repository è pubblicato **esclusivamente a scopo di ricerca e difesa** (sicurezza informatica, threat intelligence, formazione). Non contiene campioni di malware, eseguibili, script eseguibili né codice pronto all'uso offensivo. Gli indicatori di compromissione sono **defangati** secondo convenzione (`hxxp://`, `dominio[.]com`). L'autore non è responsabile di usi impropri delle informazioni qui pubblicate. Se gestisci un servizio citato (hosting, piattaforma), gli abuse contact sono indicati nel paper.
+Questo repository raccoglie i miei casi di ricerca in ambito sicurezza: incidenti malware reali, analizzati forensemente e pubblicati con documentazione tecnica completa, indicatori di compromissione, regole di rilevamento e mappatura MITRE ATT&CK. Ogni caso vive in `cases/` ed è accompagnato da un paper depositato su Zenodo (con DOI) e da un articolo divulgativo.
 
-## TL;DR
+**Politica etica:** nessun campione di malware live, nessun dato che identifichi le vittime, tutti gli IoC defangati. I campioni, quando condivisibili, sono distribuiti tramite [MalwareBazaar](https://bazaar.abuse.ch/) secondo le convenzioni della comunità di ricerca.
 
-Tra dicembre 2024 e gennaio 2025 una postazione Windows è stata infettata due volte da falsi software "Sora AI" promossi tramite annunci sui social:
+## Casi pubblicati
 
-| # | Data | Esca | Malware | Esito |
+| # | Data | Titolo | Paper | Contenuti |
 |---|---|---|---|---|
-| A | 11/12/2024 | Falso installer desktop "SoraAI" | Kit Electron MaaS + loader JS + esecuzione EXE in memoria via Rust (`memexec`) | Payload finale non recuperato |
-| B | 16/01/2025 | Falso video `video_for_you.mp4 - openai.com` (`.com` camuffato) | Infostealer Python Braodo-like, payload scaricato da GitHub a ogni avvio | **Furto confermato**: 19 password, 504 cookie, 1 carta di credito → Telegram |
+| [001](cases/001-sora-ai-malvertising/) | Ott 2026 | **Due ondate, un solo brand** — doppia infezione da malvertising "Sora AI": kit MaaS di falsi installer Electron + infostealer Python Braodo-like | [doi:10.5281/zenodo.23170945](https://doi.org/10.5281/zenodo.23170945) | IoC, YARA, mappatura MITRE, analisi deoffuscazione |
 
-La persistenza della campagna B è sopravvissuta **21 mesi** (fino al 03/10/2026) senza essere rilevata dagli antivirus.
+### Caso 001 — punti salienti
 
-## Perché questo caso è interessante
-
-1. **Il kit Electron è stato recuperato con l'intero ambiente di sviluppo**: `.env` con ID affiliato (modello pay-per-install), server payload e Redis di tracciamento, `Cargo.toml`, istruzioni per sviluppatori, percorso della macchina di build (`M:\electron\...`) e icone per ~15 brand da impersonare (Sora, MidJourney, Leonardo AI, Runway, Meta, Chrome...).
-2. **Dead drop su Google Calendar** per la risoluzione dell'URL del payload.
-3. **Offuscamento batch a 5 livelli** mai documentato in questa combinazione: falso BOM UTF-16, variabili spazzatura, labirinto di goto, dead code aritmetico, assemblaggio runtime del comando tramite substring di variabili d'ambiente → il payload non esiste in chiaro nel file.
-4. **Osservazione dal lato vittima** di un'esfiltrazione Braodo-like grazie al log di debug lasciato dal malware stesso.
+- Falso installer Electron "SoraAI" recuperato **con l'intero ambiente di sviluppo dell'autore**: `.env` con ID affiliato pay-per-install, infrastruttura di tracciamento, percorsi di build, icone per ~15 brand imitabili
+- **Dead drop su Google Calendar** per la risoluzione dell'URL del payload; modulo **Rust `memexec`** per esecuzione fileless in memoria
+- Loader batch a 5 livelli di offuscamento (`9a.bat`): falso BOM UTF-16, variabili spazzatura, labirinto di goto, dead code aritmetico, assemblaggio runtime del comando — il payload non esiste mai in chiaro
+- Furto confermato (19 password, 504 cookie, 1 carta di credito) documentato dal **log di debug lasciato dal malware stesso**; esfiltrazione via Telegram Bot API
+- Persistenza sopravvissuta **21 mesi** senza rilevamento da parte degli AV a firma
+- Campione disponibile su MalwareBazaar: SHA256 `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0`
 
 ## Struttura del repository
 
 ```
-iocs/iocs.csv                     Indicatori di compromissione (defangati)
-yara/                             Regole YARA per il rilevamento
-analysis/9a_bat_deobfuscation.md  Analisi dello script di persistenza offuscato
-analysis/soraai_electron_kit.md   Analisi del kit Electron MaaS
-analysis/mitre_attack_mapping.md  Mappatura MITRE ATT&CK
+cases/
+  001-sora-ai-malvertising/
+    README.md / README.it.md     Panoramica del caso (EN / IT)
+    analysis/                    Approfondimenti tecnici
+    iocs/                        Indicatori di compromissione (defangati)
+    yara/                        Regole di rilevamento
+    docs/                        Paper completo (EN/IT, Markdown AI-friendly)
 ```
-
-**Nessun campione** è incluso in questo repository. Il campione `9a.bat` è condiviso con la comunità di ricerca tramite **MalwareBazaar (abuse.ch)**, SHA256 `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0` (zip protetto da password, convenzione `infected`). Le altre evidenze originali sono disponibili per ricercatori accreditati tramite i contatti nel paper Zenodo.
-
-## IoC principali (defangati)
-
-| Tipo | Valore |
-|---|---|
-| Dominio | `openai-index-sora-video[.]com` |
-| Dominio | `appliedaibusiness[.]com` |
-| Dominio | `aisoraplus[.]com` |
-| Dominio | `app-tools[.]info` |
-| IPv4 | `82.197.67[.]174` (payload server, Contabo) |
-| IPv4:porta | `45.93.20[.]174:6379` (Redis tracking) |
-| URL dead drop | `calendar.app.google/Cib52LrMMujMewsE9` |
-| URL payload | `raw.githubusercontent[.]com/hacker9xclone/111/refs/heads/master/mrxw` |
-| Telegram | bot `7692901771`, chat `-1002407933384` |
-| Persistenza | `HKCU\Software\Microsoft\Windows\CurrentVersion\Run\WindowsSecurity` → `%PUBLIC%\Downloads\xmetavip2\9a.bat` |
-| SHA256 | `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0` (9a.bat) |
-| SHA256 | `9777AC1267C9EE6EBC57468DD25F1714F9120583A875164DD015C030D5DEBBF6` (SoraAI.exe) |
-
-Elenco completo in [`iocs/iocs.csv`](iocs/iocs.csv).
 
 ## Licenza
 
-Documentazione e regole: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). La citazione è gradita.
+[CC BY 4.0](LICENSE). La citazione è gradita.
