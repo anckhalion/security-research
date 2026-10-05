@@ -2,7 +2,7 @@ rule SoraAI_FakeInstaller_Electron_Kit
 {
     meta:
         description = "Rileva artefatti del kit MaaS di falsi installer AI (campagna SoraAI, dicembre 2024)"
-        author = "[autore paper Zenodo]"
+        author = "Fabio Ghioni"
         reference = "https://doi.org/10.5281/zenodo.23170945"
         date = "2026-10-05"
         campaign = "A - SoraAI fake installer"

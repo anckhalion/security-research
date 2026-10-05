@@ -2,7 +2,7 @@
 
 **Case study tecnico — v0.1 — Zenodo DOI: 10.5281/zenodo.23170945**
 
-Autore: [da definire — pseudonimo/iniziali]
+Autore: Fabio Ghioni — ORCID: [0009-0009-0415-9434](https://orcid.org/0009-0009-0415-9434)
 Data analisi: 3 ottobre 2026
 Licenza proposta: CC BY 4.0
 

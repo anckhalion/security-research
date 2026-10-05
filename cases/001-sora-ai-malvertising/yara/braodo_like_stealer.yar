@@ -2,7 +2,7 @@ rule BraodoLike_9aBAT_Obfuscated_Loader
 {
     meta:
         description = "Loader batch offuscato a 5 livelli (persistenza Run\\WindowsSecurity, campagna B gennaio 2025)"
-        author = "[autore paper Zenodo]"
+        author = "Fabio Ghioni"
         reference = "https://doi.org/10.5281/zenodo.23170945"
         date = "2026-10-05"
         campaign = "B - Braodo-like Python stealer"

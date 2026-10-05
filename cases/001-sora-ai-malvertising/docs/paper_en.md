@@ -2,7 +2,7 @@
 
 **Technical case study — v0.1 — Zenodo DOI: 10.5281/zenodo.23170945**
 
-Author: [to be defined — pseudonym/initials]
+Author: Fabio Ghioni — ORCID: [0009-0009-0415-9434](https://orcid.org/0009-0009-0415-9434)
 Analysis date: 3 October 2026
 Proposed license: CC BY 4.0
 
