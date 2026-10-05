@@ -236,7 +236,7 @@ Applied post-incident recommendations: blocking the credit card saved in the bro
 
 ## 10. Material availability
 
-- GitHub repository (IoCs, YARA, deobfuscation analysis, documentation): [URL to be added]
+- GitHub repository (IoCs, YARA, deobfuscation analysis, documentation): https://github.com/anckhalion/sora-malvertising-analysis
 - `9a.bat` sample: shared with the research community via **MalwareBazaar (abuse.ch)**, identified by SHA256 `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0` (password-protected zip, `infected` convention).
 - Other sensitive evidence (SRUDB.dat, full log with token): **not published**; available to accredited researchers upon motivated request.
 - This paper is deposited on Zenodo with DOI: [to be assigned]
