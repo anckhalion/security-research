@@ -1,4 +1,4 @@
-# sora-malvertising-analysis
+# Case 001 — Sora AI Malvertising Analysis
 
 **Technical analysis of a double "Sora AI" malvertising infection (December 2024 – January 2025): a fake-installer Electron MaaS kit with Rust fileless execution, and a "Braodo-like" Python infostealer with Telegram exfiltration.**
 
