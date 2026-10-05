@@ -1,0 +1,28 @@
+type,value,description,campaign,first_seen
+domain,openai-index-sora-video[.]com,Pagina download falso installer SoraAI,A,2024-12-11
+domain,appliedaibusiness[.]com,Serve il download InstallSoraAI.exe (api/p_b),A,2024-12-11
+domain,aisoraplus[.]com,Landing page annuncio Facebook/Instagram,B,2025-01-16
+domain,app-tools[.]info,Pagina post-installazione con subdominio per-affiliato,A,2024-12-11
+url,calendar.app.google/Cib52LrMMujMewsE9,Dead drop Google Calendar per URL payload,A,2024-12-11
+url,hxxp://82.197.67[.]174/13NVrZ4CkIbW3Ije19dJKw==,Link payload (base64-padded),A,2024-12-11
+url,raw.githubusercontent[.]com/hacker9xclone/111/refs/heads/master/mrxw,Payload stealer eseguito in memoria a ogni avvio,B,2025-01-16
+url,hxxps://www.dropbox[.]com/scl/fi/p4qqb4itbnnzyaaiaonz4/video_for_you.mp4-openai.com,Hosting falso video .com,B,2025-01-16
+ipv4,82.197.67[.]174,Server payload (Contabo GmbH - DE),A,2024-12-11
+ipv4,45.93.20[.]174:6379,Redis tracking (UFO Technologies Ltd - GB),A,2024-12-11
+telegram_bot,7692901771,Bot esfiltrazione (token oscurato),B,2025-01-16
+telegram_chat,-1002407933384,Supergruppo/canale destinazione loot,B,2025-01-16
+sha256,197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0,9a.bat (persistenza offuscata),B,2025-01-16
+sha256,FF507B25AF4B3E43BE7E351EC12B483FE46BDBC5656BAAE6AD0490C20B56E730,pw.exe = pythonw.exe legittimo firmato PSF rinominato,B,2025-01-16
+sha256,B4893ED4890874D0466FCA49960D765DD4C2D3948A47D69584F5CC51BBBFA4C9,python310.dll runtime portatile,B,2025-01-16
+sha256,9777AC1267C9EE6EBC57468DD25F1714F9120583A875164DD015C030D5DEBBF6,SoraAI.exe (non firmato - Company OpenAiLLC),A,2024-12-11
+sha256,5BD2DDD90BB5451BA1CA6662E8F45B2A89DE5F9287CC4F4B5E8E9A68B00A90C6,app.asar (kit Electron),A,2024-12-11
+sha256,360DEAF7C42E5C3A1BD3DA0569BBF2B2F641260D03A113A707C216CCBD3DE52F,Uninstall SoraAI.exe,A,2024-12-11
+sha256,9B1FBF0C11C520AE714AF8AA9AF12CFD48503EEDECD7398D8992EE94D1B4DC37,elevate.exe bundled,A,2024-12-11
+sha256,317AEAFE7DFEB5093534FE0BE6DE946C302BB39C40BA8DE47BC51A8B305AFAD3,node.exe 22.9.0 x86 legittimo scaricato dal malware in %APPDATA%\node\node,A,2024-12-11
+filepath,%PUBLIC%\Downloads\xmetavip2\9a.bat,Loader batch persistenza,B,2025-01-16
+filepath,%LOCALAPPDATA%\Programs\sora\,Installazione falsa app,A,2024-12-11
+filepath,%APPDATA%\node\node\node.exe,Runtime Node scaricato dal malware,A,2024-12-11
+registry,HKCU\Software\Microsoft\Windows\CurrentVersion\Run\WindowsSecurity,Valore Run malevolo (nome mimetico),B,2025-01-16
+filename,"video_for_you.mp4 - openai.com",Doppia estensione: eseguibile .com camuffato da video,B,2025-01-16
+affiliate_id,6PHM9GG3zOACOOY,PARTENER_ID kit MaaS (pay-per-install),A,2024-12-11
+mutex_process,localhost:9222,Debug port browser per estrazione cookie,B,2025-01-16
