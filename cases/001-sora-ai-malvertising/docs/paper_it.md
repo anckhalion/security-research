@@ -1,6 +1,6 @@
 # Due ondate, un solo brand: analisi forense di una doppia infezione da malvertising a tema "Sora AI" su postazione Windows
 
-**Case study tecnico — v0.1 — Zenodo DOI: 10.5281/zenodo.23170945**
+**Case study tecnico — v0.1 — Zenodo DOI: 10.5281/zenodo.23170945** (questa copia del repository include le correzioni del 6 ottobre 2026, vedi Registro delle modifiche)
 
 Autore: Fabio Ghioni — ORCID: [0009-0009-0415-9434](https://orcid.org/0009-0009-0415-9434)
 Data analisi: 3 ottobre 2026
@@ -115,13 +115,13 @@ Lo script è protetto da **almeno cinque livelli di offuscamento**, qui document
 
 1. **Falso BOM UTF-16** (`FF FE`) in testa a un file in realtà ANSI: induce editor e parser a decodificare il contenuto come UTF-16 producendo rumore CJK illeggibile, mentre `cmd.exe` lo esegue correttamente.
 2. **Variabili d'ambiente spazzatura**: ogni carattere dei comandi è intervallato da token `%JunkName%` non definiti (espansi a stringa vuota da cmd), inclusi nomi con simboli (`%ws)uP%`, `%(Zbx#AU%`) che rompono i regex ingenui di deoffuscamento.
-3. **Labirinto di label e goto**: ~100 label numeriche (`:615066`, `:630912`, …) con `goto` a etichette apparentemente inesistenti (`;,;`, `,`), reso possibile da una logica di flusso non lineare.
+3. **Labirinto di label e goto**: ~120 label numeriche (123 nel campione) (`:615066`, `:630912`, …) con `goto` a etichette apparentemente inesistenti (`;,;`, `,`), reso possibile da una logica di flusso non lineare.
 4. **Dead code aritmetico**: decine di istruzioni `set /a ans=<espressione esadecimale/ottale>` prive di effetto, che aumentano l'entropia statistica e affaticano l'analisi.
-5. **Assemblaggio runtime del comando finale**: il payload non esiste mai in chiaro nel file. I caratteri vengono estratti a runtime tramite substring di variabili d'ambiente presenti su ogni Windows (`%DRIVERDATA:~-34,1%`, `%PROGRAMFILES(X86):~-17,1%`, `%LOCALAPPDATA:~-12,1%`) e da una stringa charset personalizzata (`KDOT=PS7sU4zhlIiMLyRCncv3tKbZXEfx5pjrOVmA1BgH9GNk2J0Y8FWd6QqDuoTaew`).
+5. **Assemblaggio runtime del comando finale**: il payload non esiste mai in chiaro nel file. I caratteri vengono estratti a runtime tramite substring di variabili d'ambiente presenti su ogni Windows (`%DRIVERDATA:~-34,1%`, `%PROGRAMFILES(X86):~-17,1%`, `%LOCALAPPDATA:~-12,1%`) e da una stringa charset personalizzata (`KDOT=PS7sU4zhlIiMLyRCncv3tKbZXEfx5pjrOVmA1BgH9GNk2J0Y8FWd6QqDuoTaew`), la cui definizione è a sua volta intervallata da variabili spazzatura: si legge in chiaro solo dopo aver tolto il livello 2, mentre i suoi richiami (`%KDOT:~17,1%`) sono in chiaro già nel file grezzo.
 
 Il comportamento decodificato (confermato dall'analisi statica):
 
-1. **Rilancio nascosto di sé stesso** tramite `mshta vbscript:CreateObject("WScript.Shell").Run(...,0)` (riga individuata verbatim nel file).
+1. **Rilancio nascosto di sé stesso** tramite `mshta vbscript:CreateObject("WScript.Shell").Run(...,0)`. L'argomento `vbscript:createobject("wscript.shell").run("""%~s0"" …,0)` è in chiaro nel file; il nome del comando `mshta` viene assemblato a runtime ed è assente in chiaro sia nel file grezzo sia dopo aver tolto il livello 2.
 2. **Esecuzione dello stealer** tramite il runtime portatile:
    `pw.exe -c "import base64;exec(base64.b64decode('...'))"`
    che si riduce a:
@@ -182,10 +182,12 @@ Elenco completo in `iocs.csv` nel repository accompagnatorio. Tutti defangati.
 
 | Tattica | Tecnica | Campagna | Evidenza |
 |---|---|---|---|
+| Resource Development | T1608.001 Upload Malware | B | dropper ospitato su Dropbox, payload su GitHub |
 | Initial Access | T1189 Drive-by Compromise | A, B | malvertising su social |
 | Execution | T1059.007 JavaScript | A | loader JS offuscato |
 | Execution | T1059.003 Windows Command Shell | B | 9a.bat |
 | Execution | T1059.006 Python | B | pw.exe -c |
+| Execution | T1204.002 User Execution: Malicious File | A, B | click sul falso installer / falso video |
 | Execution | T1218.005 Mshta | B | rilancio nascosto via mshta/vbscript |
 | Persistence | T1547.001 Registry Run Keys | B | Run\WindowsSecurity |
 | Defense Evasion | T1620 Reflective Code Loading | A | memexec (EXE in memoria) |
@@ -193,13 +195,14 @@ Elenco completo in `iocs.csv` nel repository accompagnatorio. Tutti defangati.
 | Defense Evasion | T1027 Obfuscation | A, B | loader base64; 9a.bat a 5 livelli |
 | Defense Evasion | T1027.013 Encrypted/Encoded File | A | payload con ivbase64/secretkey |
 | Defense Evasion | T1497.001 System Checks | A | checkProcess anti-analisi (42 tool) |
-| Defense Evasion | T1218 System Binary Proxy Execution | B | pw.exe = pythonw.exe legittimo rinominato |
+| Defense Evasion | T1036.003 Rename Legitimate Utilities | B | pw.exe = pythonw.exe legittimo rinominato |
 | Credential Access | T1555.003 Credentials from Web Browsers | B | 19 password |
 | Credential Access | T1539 Steal Web Session Cookie | B | 504 cookie via debug port 9222 |
 | Collection | T1005 Data from Local System | B | raccolta e compressione zip |
-| C2 | T1102.002 Bidirectional Communication | A, B | Google Calendar, GitHub come dead drop/hosting |
+| C2 | T1102.001 Dead Drop Resolver | A | evento di Google Calendar che contiene l'URL del payload |
+| C2 | T1105 Ingress Tool Transfer | A, B | script cifrato dal server payload; `mrxw` da raw.githubusercontent |
 | C2 | T1071.001 Web Protocols | B | Telegram Bot API |
-| Exfiltration | T1567.002 Exfiltration to Cloud Storage | B | sendDocument verso chat Telegram |
+| Exfiltration | T1567 Exfiltration Over Web Service | B | sendDocument verso chat Telegram tramite Bot API |
 | Exfiltration | T1041 Exfiltration Over C2 Channel | B | HTTPS verso api.telegram.org |
 
 ---
@@ -212,6 +215,8 @@ Entrambe le catene d'attacco condividono una proprietà strutturale: **ogni comp
 - Campagna B: un interprete Python firmato dalla Python Software Foundation, rinominato; uno script `.bat` il cui contenuto ostile non esiste in forma statica (assemblato a runtime); il codice dello stealer risiede su GitHub, dominio fidato, e viene eseguito in memoria.
 
 La scansione su firma opera sul contenuto dei file a riposo: qui **non c'è quasi nulla a riposo**. Il rilevamento di Defender (`GlassWorm.HAF!MTB`) sul loader JS della campagna A è avvenuto solo perché le firme sono state aggiornate **dopo** — e comunque non ha prodotto né quarantena né rimozione della persistenza della campagna B, sopravvissuta altri 21 mesi fino alla bonifica manuale guidata da analisi umana.
+
+**Verifica del 6 ottobre 2026.** Su un'altra postazione Windows 11, una scansione personalizzata di Microsoft Defender su un archivio non cifrato contenente `9a.bat` (`MpCmdRun -Scan -ScanType 3 -DisableRemediation`, modalità che esamina anche il contenuto degli archivi; definizioni 1.459.574.0 del 5 ottobre 2026) ha restituito *found no threats*. A ventuno mesi dall'infezione il loader supera ancora le firme statiche di Defender.
 
 Le contromisure che avrebbero intercettato l'attacco sono di altra natura: **EDR comportamentale** (relazione padre-figlio `mshta → cmd → pw.exe`, accesso alla debug port dei browser), **restrittività applicativa** (WDAC/AppLocker su `%PUBLIC%`), **ispezione TLS con threat intel su domini** (raw.githubusercontent verso repo appena creati, Dropbox per eseguibili), e soprattutto **igiene d'uso**: nessun software desktop "AI" gratuito scaricato da annunci social.
 
@@ -237,7 +242,7 @@ Raccomandazioni post-incidente applicate: blocco della carta di credito salvata 
 ## 10. Disponibilità del materiale
 
 - Repository GitHub (IoC, YARA, analisi deoffuscazione, documentazione): https://github.com/anckhalion/security-research/tree/main/cases/001-sora-ai-malvertising
-- Campione `9a.bat`: condiviso con la comunità di ricerca tramite **MalwareBazaar (abuse.ch)**, identificabile dallo SHA256 `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0` (zip protetto da password, convenzione `infected`).
+- Campione `9a.bat`: condiviso con la comunità di ricerca tramite **MalwareBazaar (abuse.ch)** dentro l'archivio SHA256 [`419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f`](https://bazaar.abuse.ch/sample/419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f/) (zip, password `infected`), che contiene `9a.bat` (SHA256 `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0`) e un README. La pagina dell'archivio riporta fra i contenuti anche l'hash dello script.
 - Altre evidenze sensibili (SRUDB.dat, registro completo del log con token): **non pubblicate**; disponibili per ricercatori accreditati su richiesta motivata.
 - Questo paper è depositato su Zenodo con DOI: [10.5281/zenodo.23170945](https://doi.org/10.5281/zenodo.23170945)
 
@@ -256,7 +261,7 @@ Raccomandazioni post-incidente applicate: blocco della carta di credito salvata 
 
 ## Appendice B — Hash completi
 
-Vedi `hash_sha256.csv` nel corpus accompagnatorio (campagna A e B, inclusi `python310.dll`, `Uninstall SoraAI.exe`, `elevate.exe`, `node.exe`).
+Vedi i due file `hash_sha256.csv` nel corpus accompagnatorio (campagna B: `9a.bat`, `pw.exe`, `python310.dll`; campagna A, in `sora_fake_app/`: `SoraAI.exe`, `app.asar`, `Uninstall SoraAI.exe`, `elevate.exe`). L'hash di `node.exe` è in `sora_fake_app/node_runtime_scaricato.txt`.
 
 ## Appendice C — Estratto del log dello stealer (redatto)
 
@@ -268,3 +273,7 @@ Vedi `hash_sha256.csv` nel corpus accompagnatorio (campagna A e B, inclusi `pyth
     ?chat_id=-1002407933384&caption=IP: [IP pubblico vittima] Country: IT - Italy
     User: [nome utente] Browser Data: CK: 504|PW: 19|CC: 1 &protect_content=True" 200
 ```
+
+## Registro delle modifiche
+
+- **06/10/2026** — Copia del repository rivista dopo il confronto con il campione e con la voce di MalwareBazaar: il §10 rimanda alla voce reale di MalwareBazaar (archivio `419f513b…`, che contiene `9a.bat` `197F763B…`); il §7 aggiunge la verifica con Defender; il §4.3 precisa il numero di label, la definizione del charset e l'assemblaggio di `mshta`; il §6 rivede la mappatura ATT&CK (T1102.001, T1105, T1036.003, T1567, T1204.002, T1608.001); l'Appendice B indica dove si trova ciascun hash. Il record Zenodo v0.1 è precedente a queste correzioni.

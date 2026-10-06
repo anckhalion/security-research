@@ -5,6 +5,7 @@ rule BraodoLike_9aBAT_Obfuscated_Loader
         author = "Fabio Ghioni"
         reference = "https://doi.org/10.5281/zenodo.23170945"
         date = "2026-10-05"
+        modified = "2026-10-06"
         campaign = "B - Braodo-like Python stealer"
         hash = "197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0"
     strings:
@@ -16,10 +17,11 @@ rule BraodoLike_9aBAT_Obfuscated_Loader
         $sub1 = "DRIVERDATA:~-34," ascii nocase
         $sub2 = "PROGRAMFILES(X86):~-17," ascii nocase
         $sub3 = "LOCALAPPDATA:~-12," ascii nocase
-        // Charset personalizzato osservato nel campione
-        $charset = "KDOT=PS7sU4zhlIiMLyRCncv3tKbZXEfx5pjrOVmA1BgH9GNk2J0Y8FWd6QqDuoTaew" ascii
+        // Richiami al charset personalizzato KDOT, in chiaro nel file grezzo
+        // (la definizione KDOT=... è intervallata da variabili spazzatura e non compare letterale)
+        $kdot = "%KDOT:~" ascii
     condition:
-        ($bom and $mshta) or ($mshta and 2 of ($sub*)) or $charset
+        ($bom and $mshta) or ($mshta and 2 of ($sub*)) or ($kdot and 2 of ($sub*))
 }
 
 rule BraodoLike_Stealer_Log_Artefacts

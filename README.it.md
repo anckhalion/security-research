@@ -24,8 +24,8 @@ Questo repository raccoglie i miei casi di ricerca in ambito sicurezza: incident
 - **Dead drop su Google Calendar** per la risoluzione dell'URL del payload; modulo **Rust `memexec`** per esecuzione fileless in memoria
 - Loader batch a 5 livelli di offuscamento (`9a.bat`): falso BOM UTF-16, variabili spazzatura, labirinto di goto, dead code aritmetico, assemblaggio runtime del comando — il payload non esiste mai in chiaro
 - Furto confermato (19 password, 504 cookie, 1 carta di credito) documentato dal **log di debug lasciato dal malware stesso**; esfiltrazione via Telegram Bot API
-- Persistenza sopravvissuta **21 mesi** senza rilevamento da parte degli AV a firma
-- Campione disponibile su MalwareBazaar: SHA256 `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0`
+- Persistenza sopravvissuta **21 mesi** senza rilevamento da parte degli AV a firma; al 06/10/2026 il loader supera ancora le firme di Microsoft Defender
+- Campione su MalwareBazaar: `9a.bat` (SHA256 `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0`) dentro l'archivio [`419f513b…`](https://bazaar.abuse.ch/sample/419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f/) (zip, password `infected`)
 
 ## Struttura del repository
 

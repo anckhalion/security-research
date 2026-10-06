@@ -4,8 +4,7 @@
 
 🇮🇹 [Versione italiana](README.it.md)
 
-📄 Full paper on Zenodo: [10.5281/zenodo.23170945](https://doi.org/10.5281/zenodo.23170945) — [English PDF + Markdown](docs/paper_en.md) | [PDF + Markdown italiano](docs/paper_it.md)
-📰 Long-form article (Italian, Substack): [link to be added]
+📄 Full paper (PDF) on Zenodo: [10.5281/zenodo.23170945](https://doi.org/10.5281/zenodo.23170945) — Markdown in this repository: [English](docs/paper_en.md) | [Italiano](docs/paper_it.md)
 
 ---
 
@@ -22,7 +21,7 @@ Between December 2024 and January 2025, a Windows workstation was infected twice
 | A | 2024-12-11 | Fake "SoraAI" desktop installer | Electron MaaS kit + JS loader + in-memory EXE execution via Rust (`memexec`) | Final payload not recovered |
 | B | 2025-01-16 | Fake video `video_for_you.mp4 - openai.com` (disguised `.com`) | Braodo-like Python infostealer, payload fetched from GitHub at every startup | **Confirmed theft**: 19 passwords, 504 cookies, 1 credit card → Telegram |
 
-Campaign B's persistence survived **21 months** (until 2026-10-03) without being detected by antivirus.
+Campaign B's persistence survived **21 months** (until 2026-10-03) without being detected by antivirus. A Microsoft Defender re-test on 2026-10-06 (security intelligence 1.459.574.0) still reports no threats in the loader.
 
 ## Why this case matters
 
@@ -43,7 +42,7 @@ docs/paper_en.md                  Full paper (English, AI-friendly Markdown)
 docs/paper_it.md                  Paper completo (italiano)
 ```
 
-**No samples** are included in this repository. The `9a.bat` sample is shared with the research community via **MalwareBazaar (abuse.ch)**, SHA256 `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0` (password-protected zip, `infected` convention). Other original evidence is available to accredited researchers via the contacts in the Zenodo paper.
+**No samples** are included in this repository. The `9a.bat` sample (SHA256 `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0`) is shared with the research community via **MalwareBazaar (abuse.ch)** inside the archive entry [`419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f`](https://bazaar.abuse.ch/sample/419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f/) (zip, password `infected`). Other original evidence is available to accredited researchers via the contacts in the Zenodo paper.
 
 ## Main IoCs (defanged)
 

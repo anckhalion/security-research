@@ -4,8 +4,7 @@
 
 🇬🇧 [English version](README.md)
 
-📄 Paper completo su Zenodo: [10.5281/zenodo.23170945](https://doi.org/10.5281/zenodo.23170945) — [PDF + Markdown italiano](docs/paper_it.md) | [English PDF + Markdown](docs/paper_en.md)
-📰 Articolo divulgativo su Substack: [link da inserire]
+📄 Paper completo (PDF) su Zenodo: [10.5281/zenodo.23170945](https://doi.org/10.5281/zenodo.23170945) — Markdown in questo repository: [Italiano](docs/paper_it.md) | [English](docs/paper_en.md)
 
 ---
 
@@ -22,7 +21,7 @@ Tra dicembre 2024 e gennaio 2025 una postazione Windows è stata infettata due v
 | A | 11/12/2024 | Falso installer desktop "SoraAI" | Kit Electron MaaS + loader JS + esecuzione EXE in memoria via Rust (`memexec`) | Payload finale non recuperato |
 | B | 16/01/2025 | Falso video `video_for_you.mp4 - openai.com` (`.com` camuffato) | Infostealer Python Braodo-like, payload scaricato da GitHub a ogni avvio | **Furto confermato**: 19 password, 504 cookie, 1 carta di credito → Telegram |
 
-La persistenza della campagna B è sopravvissuta **21 mesi** (fino al 03/10/2026) senza essere rilevata dagli antivirus.
+La persistenza della campagna B è sopravvissuta **21 mesi** (fino al 03/10/2026) senza essere rilevata dagli antivirus. Una nuova verifica con Microsoft Defender il 06/10/2026 (definizioni 1.459.574.0) riporta ancora nessuna minaccia nel loader.
 
 ## Perché questo caso è interessante
 
@@ -39,9 +38,11 @@ yara/                             Regole YARA per il rilevamento
 analysis/9a_bat_deobfuscation.md  Analisi dello script di persistenza offuscato
 analysis/soraai_electron_kit.md   Analisi del kit Electron MaaS
 analysis/mitre_attack_mapping.md  Mappatura MITRE ATT&CK
+docs/paper_en.md                  Full paper (English, AI-friendly Markdown)
+docs/paper_it.md                  Paper completo (italiano)
 ```
 
-**Nessun campione** è incluso in questo repository. Il campione `9a.bat` è condiviso con la comunità di ricerca tramite **MalwareBazaar (abuse.ch)**, SHA256 `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0` (zip protetto da password, convenzione `infected`). Le altre evidenze originali sono disponibili per ricercatori accreditati tramite i contatti nel paper Zenodo.
+**Nessun campione** è incluso in questo repository. Il campione `9a.bat` (SHA256 `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0`) è condiviso con la comunità di ricerca tramite **MalwareBazaar (abuse.ch)** dentro l'archivio [`419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f`](https://bazaar.abuse.ch/sample/419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f/) (zip, password `infected`). Le altre evidenze originali sono disponibili per ricercatori accreditati tramite i contatti nel paper Zenodo.
 
 ## IoC principali (defangati)
 
