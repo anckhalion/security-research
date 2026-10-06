@@ -4,7 +4,7 @@
 
 🇬🇧 [English version](README.md)
 
-📄 Paper completo (PDF) su Zenodo: [10.5281/zenodo.23170945](https://doi.org/10.5281/zenodo.23170945) — Markdown in questo repository: [Italiano](docs/paper_it.md) | [English](docs/paper_en.md)
+📄 Paper completo (PDF) su Zenodo: [10.5281/zenodo.23170944](https://doi.org/10.5281/zenodo.23170944) (tutte le versioni; versione attuale v0.2: [10.5281/zenodo.23194008](https://doi.org/10.5281/zenodo.23194008)) — Markdown in questo repository: [Italiano](docs/paper_it.md) | [English](docs/paper_en.md)
 
 ---
 
@@ -42,7 +42,7 @@ docs/paper_en.md                  Full paper (English, AI-friendly Markdown)
 docs/paper_it.md                  Paper completo (italiano)
 ```
 
-**Nessun campione** è incluso in questo repository. Il campione `9a.bat` (SHA256 `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0`) è condiviso con la comunità di ricerca tramite **MalwareBazaar (abuse.ch)** dentro l'archivio [`419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f`](https://bazaar.abuse.ch/sample/419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f/) (zip, password `infected`). Le altre evidenze originali sono disponibili per ricercatori accreditati tramite i contatti nel paper Zenodo.
+**Nessun campione** è incluso in questo repository. Il campione `9a.bat` (SHA256 `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0`) è condiviso con la comunità di ricerca tramite **MalwareBazaar (abuse.ch)** dentro l'archivio [`419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f`](https://bazaar.abuse.ch/sample/419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f/) (zip, password `infected`). Il 06/10/2026 è stato caricato anche come voce autonoma: [`197f763b…`](https://bazaar.abuse.ch/sample/197f763bcd619f96e8c8c9074c9f483ccdb31e49b6e51c115d086a48bed17de0/). Le altre evidenze originali sono disponibili per ricercatori accreditati tramite i contatti nel paper Zenodo.
 
 ## IoC principali (defangati)
 

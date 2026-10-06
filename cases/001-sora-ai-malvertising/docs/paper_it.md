@@ -1,6 +1,6 @@
 # Due ondate, un solo brand: analisi forense di una doppia infezione da malvertising a tema "Sora AI" su postazione Windows
 
-**Case study tecnico — v0.1 — Zenodo DOI: 10.5281/zenodo.23170945** (questa copia del repository include le correzioni del 6 ottobre 2026, vedi Registro delle modifiche)
+**Case study tecnico — v0.2 (6 ottobre 2026) — DOI: [10.5281/zenodo.23194008](https://doi.org/10.5281/zenodo.23194008) — tutte le versioni: [10.5281/zenodo.23170944](https://doi.org/10.5281/zenodo.23170944)**
 
 Autore: Fabio Ghioni — ORCID: [0009-0009-0415-9434](https://orcid.org/0009-0009-0415-9434)
 Data analisi: 3 ottobre 2026
@@ -242,9 +242,9 @@ Raccomandazioni post-incidente applicate: blocco della carta di credito salvata 
 ## 10. Disponibilità del materiale
 
 - Repository GitHub (IoC, YARA, analisi deoffuscazione, documentazione): https://github.com/anckhalion/security-research/tree/main/cases/001-sora-ai-malvertising
-- Campione `9a.bat`: condiviso con la comunità di ricerca tramite **MalwareBazaar (abuse.ch)** dentro l'archivio SHA256 [`419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f`](https://bazaar.abuse.ch/sample/419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f/) (zip, password `infected`), che contiene `9a.bat` (SHA256 `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0`) e un README. La pagina dell'archivio riporta fra i contenuti anche l'hash dello script.
+- Campione `9a.bat`: condiviso con la comunità di ricerca tramite **MalwareBazaar (abuse.ch)** dentro l'archivio SHA256 [`419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f`](https://bazaar.abuse.ch/sample/419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f/) (zip, password `infected`), che contiene `9a.bat` (SHA256 `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0`) e un README. La pagina dell'archivio riporta fra i contenuti anche l'hash dello script. Il 6 ottobre 2026 lo stesso file è stato caricato anche come voce autonoma: [`197f763b…`](https://bazaar.abuse.ch/sample/197f763bcd619f96e8c8c9074c9f483ccdb31e49b6e51c115d086a48bed17de0/).
 - Altre evidenze sensibili (SRUDB.dat, registro completo del log con token): **non pubblicate**; disponibili per ricercatori accreditati su richiesta motivata.
-- Questo paper è depositato su Zenodo con DOI: [10.5281/zenodo.23170945](https://doi.org/10.5281/zenodo.23170945)
+- Questo paper è depositato su Zenodo: questa versione (v0.2) [10.5281/zenodo.23194008](https://doi.org/10.5281/zenodo.23194008); tutte le versioni, che rimandano all'ultima, [10.5281/zenodo.23170944](https://doi.org/10.5281/zenodo.23170944); v0.1 [10.5281/zenodo.23170945](https://doi.org/10.5281/zenodo.23170945).
 
 ## Appendice A — Timeline consolidata
 
@@ -276,4 +276,5 @@ Vedi i due file `hash_sha256.csv` nel corpus accompagnatorio (campagna B: `9a.ba
 
 ## Registro delle modifiche
 
-- **06/10/2026** — Copia del repository rivista dopo il confronto con il campione e con la voce di MalwareBazaar: il §10 rimanda alla voce reale di MalwareBazaar (archivio `419f513b…`, che contiene `9a.bat` `197F763B…`); il §7 aggiunge la verifica con Defender; il §4.3 precisa il numero di label, la definizione del charset e l'assemblaggio di `mshta`; il §6 rivede la mappatura ATT&CK (T1102.001, T1105, T1036.003, T1567, T1204.002, T1608.001); l'Appendice B indica dove si trova ciascun hash. Il record Zenodo v0.1 è precedente a queste correzioni.
+- **v0.2, 06/10/2026** — Versione rivista dopo il confronto con il campione e con la voce di MalwareBazaar: il §10 rimanda alla voce reale di MalwareBazaar (archivio `419f513b…`, che contiene `9a.bat` `197F763B…`); il §7 aggiunge la verifica con Defender; il §4.3 precisa il numero di label, la definizione del charset e l'assemblaggio di `mshta`; il §6 rivede la mappatura ATT&CK (T1102.001, T1105, T1036.003, T1567, T1204.002, T1608.001); l'Appendice B indica dove si trova ciascun hash.
+- **v0.1, 06/10/2026** — Prima pubblicazione, [10.5281/zenodo.23170945](https://doi.org/10.5281/zenodo.23170945).

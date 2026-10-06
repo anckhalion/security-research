@@ -1,6 +1,6 @@
 # Two Waves, One Brand: Forensic Analysis of a Double "Sora AI" Malvertising Infection on a Windows Workstation
 
-**Technical case study — v0.1 — Zenodo DOI: 10.5281/zenodo.23170945** (this repository copy includes the corrections of 6 October 2026, see Changelog)
+**Technical case study — v0.2 (6 October 2026) — DOI: [10.5281/zenodo.23194008](https://doi.org/10.5281/zenodo.23194008) — all versions: [10.5281/zenodo.23170944](https://doi.org/10.5281/zenodo.23170944)**
 
 Author: Fabio Ghioni — ORCID: [0009-0009-0415-9434](https://orcid.org/0009-0009-0415-9434)
 Analysis date: 3 October 2026
@@ -242,9 +242,9 @@ Applied post-incident recommendations: blocking the credit card saved in the bro
 ## 10. Material availability
 
 - GitHub repository (IoCs, YARA, deobfuscation analysis, documentation): https://github.com/anckhalion/security-research/tree/main/cases/001-sora-ai-malvertising
-- `9a.bat` sample: shared with the research community via **MalwareBazaar (abuse.ch)** inside the archive entry SHA256 [`419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f`](https://bazaar.abuse.ch/sample/419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f/) (zip, password `infected`), which contains `9a.bat` (SHA256 `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0`) and a README. The archive page lists the script's own hash among its contents.
+- `9a.bat` sample: shared with the research community via **MalwareBazaar (abuse.ch)** inside the archive entry SHA256 [`419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f`](https://bazaar.abuse.ch/sample/419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f/) (zip, password `infected`), which contains `9a.bat` (SHA256 `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0`) and a README. The archive page lists the script's own hash among its contents. On 6 October 2026 the same file was also uploaded as a standalone entry: [`197f763b…`](https://bazaar.abuse.ch/sample/197f763bcd619f96e8c8c9074c9f483ccdb31e49b6e51c115d086a48bed17de0/).
 - Other sensitive evidence (SRUDB.dat, full log with token): **not published**; available to accredited researchers upon motivated request.
-- This paper is deposited on Zenodo with DOI: [10.5281/zenodo.23170945](https://doi.org/10.5281/zenodo.23170945)
+- This paper is deposited on Zenodo: this version (v0.2) [10.5281/zenodo.23194008](https://doi.org/10.5281/zenodo.23194008); all versions, resolving to the latest, [10.5281/zenodo.23170944](https://doi.org/10.5281/zenodo.23170944); v0.1 [10.5281/zenodo.23170945](https://doi.org/10.5281/zenodo.23170945).
 
 ## Appendix A — Consolidated timeline
 
@@ -276,4 +276,5 @@ See the two `hash_sha256.csv` files in the accompanying corpus (campaign B: `9a.
 
 ## Changelog
 
-- **2026-10-06** — Repository copy revised after verification against the sample and the MalwareBazaar entry: §10 points to the actual MalwareBazaar entry (archive `419f513b…`, containing `9a.bat` `197F763B…`); §7 adds the Defender re-test; §4.3 refines the label count, the charset definition and the `mshta` assembly; §6 revises the ATT&CK mapping (T1102.001, T1105, T1036.003, T1567, T1204.002, T1608.001); Appendix B states where each hash is listed. The Zenodo record v0.1 predates these corrections.
+- **v0.2, 2026-10-06** — Revised after verification against the sample and the MalwareBazaar entry: §10 points to the actual MalwareBazaar entry (archive `419f513b…`, containing `9a.bat` `197F763B…`); §7 adds the Defender re-test; §4.3 refines the label count, the charset definition and the `mshta` assembly; §6 revises the ATT&CK mapping (T1102.001, T1105, T1036.003, T1567, T1204.002, T1608.001); Appendix B states where each hash is listed.
+- **v0.1, 2026-10-06** — First release, [10.5281/zenodo.23170945](https://doi.org/10.5281/zenodo.23170945).

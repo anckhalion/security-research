@@ -4,7 +4,7 @@
 **SHA256:** `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0`
 **Ruolo:** voce `Run\WindowsSecurity` → esecuzione a ogni logon utente.
 
-> Il campione non è incluso in questo repository: è condiviso tramite **MalwareBazaar (abuse.ch)** dentro l'archivio [`419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f`](https://bazaar.abuse.ch/sample/419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f/) (zip con password `infected`), che contiene `9a.bat` con lo SHA256 indicato sopra. L'analisi è statica; il file **non va mai eseguito**.
+> Il campione non è incluso in questo repository: è condiviso tramite **MalwareBazaar (abuse.ch)** dentro l'archivio [`419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f`](https://bazaar.abuse.ch/sample/419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f/) (zip con password `infected`), che contiene `9a.bat` con lo SHA256 indicato sopra. Il 06/10/2026 lo stesso file è stato caricato anche come voce autonoma: [`197f763b…`](https://bazaar.abuse.ch/sample/197f763bcd619f96e8c8c9074c9f483ccdb31e49b6e51c115d086a48bed17de0/). L'analisi è statica; il file **non va mai eseguito**.
 
 ## Livelli di offuscamento
 

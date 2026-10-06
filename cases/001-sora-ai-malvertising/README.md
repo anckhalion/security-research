@@ -4,7 +4,7 @@
 
 🇮🇹 [Versione italiana](README.it.md)
 
-📄 Full paper (PDF) on Zenodo: [10.5281/zenodo.23170945](https://doi.org/10.5281/zenodo.23170945) — Markdown in this repository: [English](docs/paper_en.md) | [Italiano](docs/paper_it.md)
+📄 Full paper (PDF) on Zenodo: [10.5281/zenodo.23170944](https://doi.org/10.5281/zenodo.23170944) (all versions; current v0.2: [10.5281/zenodo.23194008](https://doi.org/10.5281/zenodo.23194008)) — Markdown in this repository: [English](docs/paper_en.md) | [Italiano](docs/paper_it.md)
 
 ---
 
@@ -42,7 +42,7 @@ docs/paper_en.md                  Full paper (English, AI-friendly Markdown)
 docs/paper_it.md                  Paper completo (italiano)
 ```
 
-**No samples** are included in this repository. The `9a.bat` sample (SHA256 `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0`) is shared with the research community via **MalwareBazaar (abuse.ch)** inside the archive entry [`419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f`](https://bazaar.abuse.ch/sample/419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f/) (zip, password `infected`). Other original evidence is available to accredited researchers via the contacts in the Zenodo paper.
+**No samples** are included in this repository. The `9a.bat` sample (SHA256 `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0`) is shared with the research community via **MalwareBazaar (abuse.ch)** inside the archive entry [`419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f`](https://bazaar.abuse.ch/sample/419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f/) (zip, password `infected`). On 2026-10-06 it was also uploaded as a standalone entry: [`197f763b…`](https://bazaar.abuse.ch/sample/197f763bcd619f96e8c8c9074c9f483ccdb31e49b6e51c115d086a48bed17de0/). Other original evidence is available to accredited researchers via the contacts in the Zenodo paper.
 
 ## Main IoCs (defanged)
 
