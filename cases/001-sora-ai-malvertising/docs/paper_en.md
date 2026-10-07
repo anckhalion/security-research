@@ -1,6 +1,6 @@
 # Two Waves, One Brand: Forensic Analysis of a Double "Sora AI" Malvertising Infection on a Windows Workstation
 
-**Technical case study — v0.2 — Zenodo DOI: 10.5281/zenodo.23170945**
+**Technical case study — v0.2 (6 October 2026) — DOI: [10.5281/zenodo.23194008](https://doi.org/10.5281/zenodo.23194008) — all versions: [10.5281/zenodo.23170944](https://doi.org/10.5281/zenodo.23170944)**
 
 Author: Fabio Ghioni — ORCID: [0009-0009-0415-9434](https://orcid.org/0009-0009-0415-9434)
 Analysis date: 3 October 2026
@@ -12,7 +12,7 @@ Proposed license: CC BY 4.0
 
 ## Abstract
 
-We present the post-mortem forensic analysis of a Windows 10/11 workstation hit by **two distinct malvertising campaigns** abusing the "Sora" brand (OpenAI's video generator) as bait, five weeks apart (December 2024 – January 2025). The first campaign distributed a **fake Electron desktop application** ("SoraAI 1.0.6") that turned out to be a **commercial fake-installer generation kit** with an affiliate model, an obfuscated JavaScript loader, a Google Calendar dead drop, and a native Rust module capable of running EXE payloads entirely in memory. The second campaign distributed a **Python infostealer** matching the Braodo Stealer pattern, with Run-key persistence, exfiltration to the Telegram API, and specific targeting of Facebook advertising accounts. For the second infection we recovered the **debug log left behind by the malware itself**, documenting the confirmed theft of 19 passwords, 504 session cookies, and one credit card. We also document **confirmed monetization**: the workstation's Facebook ad account was used to spread the same malvertising, proving that the campaign self-funds through infected machines. This case is relevant for three reasons: (1) the Electron kit was recovered **with the author's entire development environment**, including affiliate ID, infrastructure, and build-machine paths; (2) both attack chains evaded the host's antivirus defenses for months (persistence survived **21 months**, until manual remediation); (3) we document, from the victim side, the life cycle of a stealer "orphaned" by its C2. We release IoCs, YARA rules, and methodology for reproducibility.
+We present the post-mortem forensic analysis of a Windows 10/11 workstation hit by **two distinct malvertising campaigns** abusing the "Sora" brand (OpenAI's video generator) as bait, five weeks apart (December 2024 – January 2025). The first campaign distributed a **fake Electron desktop application** ("SoraAI 1.0.6") that turned out to be a **commercial fake-installer generation kit** with an affiliate model, an obfuscated JavaScript loader, a Google Calendar dead drop, and a native Rust module capable of running EXE payloads entirely in memory. The second campaign distributed a **Python infostealer** matching the Braodo Stealer pattern, with Run-key persistence, exfiltration to the Telegram API, and specific targeting of Facebook advertising accounts. For the second infection we recovered the **debug log left behind by the malware itself**, documenting the confirmed theft of 19 passwords, 504 session cookies, and one credit card. This case is relevant for three reasons: (1) the Electron kit was recovered **with the author's entire development environment**, including affiliate ID, infrastructure, and build-machine paths; (2) both attack chains evaded the host's antivirus defenses for months (persistence survived **21 months**, until manual remediation); (3) we document, from the victim side, the life cycle of a stealer "orphaned" by its C2. We release IoCs, YARA rules, and methodology for reproducibility.
 
 **Keywords:** malvertising, infostealer, Braodo Stealer, Electron, malware-as-a-service, fileless execution, Telegram C2, digital forensics, fake AI apps
 
@@ -25,7 +25,7 @@ The media success of AI-based video generators has created fertile ground for ma
 - **Campaign A (December 2024):** fake "SoraAI" desktop installer — an Electron/Nuxt kit with an affiliate economy (pay-per-install), fileless execution via a Rust module.
 - **Campaign B (January 2025):** a fake `.mp4` video (actually a `.com` executable) installing a Python infostealer of the Braodo family/pattern, focused on stealing Facebook advertising accounts.
 
-The full analysis and final remediation were performed on 3 October 2026. However, campaign B's infection event had been detected as early as January 2025 (§4.4.1): after immediate mitigation of the exposure, the loader's persistence was **deliberately kept active under observation** to study its behavior after its infrastructure died. It was still active in October 2026.
+The analysis was conducted on 3 October 2026, ~21 months after the second infection, at the machine owner's request. The second malware's persistence was still active at that date.
 
 ### 1.1 Contributions
 
@@ -115,13 +115,13 @@ The script is protected by **at least five layers of obfuscation**, documented h
 
 1. **Fake UTF-16 BOM** (`FF FE`) prepended to what is actually an ANSI file: editors and parsers decode the content as UTF-16, producing unreadable CJK noise, while `cmd.exe` executes it correctly.
 2. **Junk environment variables**: every character of the real commands is interleaved with undefined `%JunkName%` tokens (expanded to empty strings by cmd), including names containing symbols (`%ws)uP%`, `%(Zbx#AU%`) that break naive deobfuscation regexes.
-3. **Label-and-goto maze**: ~100 numeric labels (`:615066`, `:630912`, …) with `goto` statements pointing to apparently nonexistent labels (`;,;`, `,`), enabled by non-linear flow logic.
+3. **Label-and-goto maze**: ~120 numeric labels (123 in the sample) (`:615066`, `:630912`, …) with `goto` statements pointing to apparently nonexistent labels (`;,;`, `,`), enabled by non-linear flow logic.
 4. **Arithmetic dead code**: dozens of effect-free `set /a ans=<hex/octal expression>` instructions that raise statistical entropy and fatigue manual analysis.
-5. **Runtime assembly of the final command**: the payload never exists in plaintext in the file. Characters are extracted at runtime via substrings of environment variables present on every Windows install (`%DRIVERDATA:~-34,1%`, `%PROGRAMFILES(X86):~-17,1%`, `%LOCALAPPDATA:~-12,1%`) and from a custom charset string (`KDOT=PS7sU4zhlIiMLyRCncv3tKbZXEfx5pjrOVmA1BgH9GNk2J0Y8FWd6QqDuoTaew`).
+5. **Runtime assembly of the final command**: the payload never exists in plaintext in the file. Characters are extracted at runtime via substrings of environment variables present on every Windows install (`%DRIVERDATA:~-34,1%`, `%PROGRAMFILES(X86):~-17,1%`, `%LOCALAPPDATA:~-12,1%`) and from a custom charset string (`KDOT=PS7sU4zhlIiMLyRCncv3tKbZXEfx5pjrOVmA1BgH9GNk2J0Y8FWd6QqDuoTaew`), whose definition is itself interleaved with junk variables: it reads in clear only after layer 2 is removed, while its references (`%KDOT:~17,1%`) are in clear in the raw file.
 
 The decoded behavior (confirmed by static analysis):
 
-1. **Hidden self-relaunch** via `mshta vbscript:CreateObject("WScript.Shell").Run(...,0)` (line located verbatim in the file).
+1. **Hidden self-relaunch** via `mshta vbscript:CreateObject("WScript.Shell").Run(...,0)`. The `vbscript:createobject("wscript.shell").run("""%~s0"" …,0)` argument is in clear text in the file; the `mshta` command name is assembled at runtime and appears in clear neither in the raw file nor after removal of layer 2.
 2. **Stealer execution** via the portable runtime:
    `pw.exe -c "import base64;exec(base64.b64decode('...'))"`
    which reduces to:
@@ -142,19 +142,13 @@ The malware left its own **debug log** on the machine, detailing the activity of
 
 **Confirmed loot: 19 passwords saved in browsers, 504 session cookies, 1 credit card, public IP/country/username/machine name.** Session-cookie theft is especially severe: it enables *session hijacking* even on accounts protected by 2FA.
 
-### 4.4.1 Confirmed monetization: the malvertising loop
-
-In the days following the exfiltration, the professional Facebook account associated with the workstation showed unauthorized activity: an **active advertising campaign promoting a Vietnamese product** and the addition of a **Vietnamese collaborator** to the ad account. A technically relevant detail: access was gained **without any Graph API token** — the stealer's attempts failed with `access_token=False` (§4.4) — but the stolen **session cookies** (T1539) were sufficient to operate on the account. Immediate mitigation: ad account closed, collaborator removed, critical credentials rotated. The payment card associated with the account was expired by the user's policy, making direct monetization at the owner's expense impossible.
-
-The episode confirms the campaign's economic model: **the ads spreading the malware are paid for with the ad accounts of infected machines** — the campaign self-funds through its own victims, while the advertising platform collects revenue at every turn of the cycle. It also converges with the attribution to Vietnamese actors (§4.5).
-
 ### 4.5 Attribution
 
 The pattern matches **Braodo Stealer**, documented by Splunk and attributed to Vietnamese actors: same targeting of Facebook advertising accounts, payload hosting on GitHub, Telegram exfiltration, Vietnamese log messages. The GitHub account `hacker9xclone` had been active since at least 2020 (a fork of a C++ keylogger in October 2020; the `111` repository later used to host the payload was empty in December 2020). **At analysis time the account has been removed** (HTTP 404) and the `mrxw` payload is no longer retrievable from GitHub or the Wayback Machine.
 
 ### 4.6 An "orphaned" stealer: 21 months of empty executions
 
-After the exposure was mitigated (§4.4.1), persistence was deliberately kept active under observation: the goal was to document the behavior of a stealer "orphaned" by its C2. The malware's counter file reads `1` and the log was never updated after 16/01/2025. Most likely the full theft happened **only once**; subsequent per-logon executions (until 02/10/2026) silently failed after the GitHub account hosting the payload was removed. This cannot be proven with 100% certainty: a window in which the payload was reachable again cannot be excluded. The case illustrates an under-documented aspect: a loader's persistence remains active **years after its infrastructure dies**, continuing to pose a risk (C2 reactivation, or dismissal as a "benign" false negative by signature scanners).
+The malware's counter file reads `1` and the log was never updated after 16/01/2025. Most likely the full theft happened **only once**; subsequent per-logon executions (until 02/10/2026) silently failed after the GitHub account hosting the payload was removed. This cannot be proven with 100% certainty: a window in which the payload was reachable again cannot be excluded. The case illustrates an under-documented aspect: a loader's persistence remains active **years after its infrastructure dies**, continuing to pose a risk (C2 reactivation, or dismissal as a "benign" false negative by signature scanners).
 
 ---
 
@@ -188,10 +182,12 @@ Full list in `iocs.csv` in the accompanying repository. All defanged.
 
 | Tactic | Technique | Campaign | Evidence |
 |---|---|---|---|
+| Resource Development | T1608.001 Upload Malware | B | dropper hosted on Dropbox, payload on GitHub |
 | Initial Access | T1189 Drive-by Compromise | A, B | social malvertising |
 | Execution | T1059.007 JavaScript | A | obfuscated JS loader |
 | Execution | T1059.003 Windows Command Shell | B | 9a.bat |
 | Execution | T1059.006 Python | B | pw.exe -c |
+| Execution | T1204.002 User Execution: Malicious File | A, B | click on the fake installer / fake video |
 | Execution | T1218.005 Mshta | B | hidden relaunch via mshta/vbscript |
 | Persistence | T1547.001 Registry Run Keys | B | Run\WindowsSecurity |
 | Defense Evasion | T1620 Reflective Code Loading | A | memexec (in-memory EXE) |
@@ -199,13 +195,14 @@ Full list in `iocs.csv` in the accompanying repository. All defanged.
 | Defense Evasion | T1027 Obfuscation | A, B | base64 loader; 5-layer 9a.bat |
 | Defense Evasion | T1027.013 Encrypted/Encoded File | A | payload with ivbase64/secretkey |
 | Defense Evasion | T1497.001 System Checks | A | checkProcess anti-analysis (42 tools) |
-| Defense Evasion | T1218 System Binary Proxy Execution | B | pw.exe = renamed legitimate pythonw.exe |
+| Defense Evasion | T1036.003 Rename Legitimate Utilities | B | pw.exe = renamed legitimate pythonw.exe |
 | Credential Access | T1555.003 Credentials from Web Browsers | B | 19 passwords |
 | Credential Access | T1539 Steal Web Session Cookie | B | 504 cookies via debug port 9222 |
 | Collection | T1005 Data from Local System | B | collection and zip compression |
-| C2 | T1102.002 Bidirectional Communication | A, B | Google Calendar, GitHub as dead drop/hosting |
+| C2 | T1102.001 Dead Drop Resolver | A | Google Calendar event holding the payload URL |
+| C2 | T1105 Ingress Tool Transfer | A, B | encrypted script from the payload server; `mrxw` from raw.githubusercontent |
 | C2 | T1071.001 Web Protocols | B | Telegram Bot API |
-| Exfiltration | T1567.002 Exfiltration to Cloud Storage | B | sendDocument to Telegram chat |
+| Exfiltration | T1567 Exfiltration Over Web Service | B | sendDocument to Telegram chat via Bot API |
 | Exfiltration | T1041 Exfiltration Over C2 Channel | B | HTTPS to api.telegram.org |
 
 ---
@@ -218,6 +215,8 @@ Both attack chains share a structural property: **every on-disk component is, ta
 - Campaign B: a Python interpreter signed by the Python Software Foundation, renamed; a `.bat` script whose hostile content never exists in static form (assembled at runtime); the stealer code hosted on GitHub, a trusted domain, executed in memory.
 
 Signature scanning operates on at-rest file content: here **there is almost nothing at rest**. Defender's detection (`GlassWorm.HAF!MTB`) of campaign A's JS loader only happened because signatures were updated **afterwards** — and even then it produced neither quarantine nor removal of campaign B's persistence, which survived another 21 months until human-driven manual remediation.
+
+**Re-test, 6 October 2026.** On a separate Windows 11 workstation, a Microsoft Defender custom scan of an unencrypted archive containing `9a.bat` (`MpCmdRun -Scan -ScanType 3 -DisableRemediation`, a mode that also scans archive contents; security intelligence 1.459.574.0 of 5 October 2026) returned *found no threats*. Twenty-one months after the infection, the loader still passes Defender's static signatures.
 
 The countermeasures that would have intercepted the attack are of a different nature: **behavioral EDR** (parent-child relationship `mshta → cmd → pw.exe`, access to the browser debug port), **application control** (WDAC/AppLocker on `%PUBLIC%`), **TLS inspection with domain threat intel** (raw.githubusercontent to freshly created repos, Dropbox for executables), and above all **usage hygiene**: no free desktop "AI" software downloaded from social ads.
 
@@ -243,9 +242,9 @@ Applied post-incident recommendations: blocking the credit card saved in the bro
 ## 10. Material availability
 
 - GitHub repository (IoCs, YARA, deobfuscation analysis, documentation): https://github.com/anckhalion/security-research/tree/main/cases/001-sora-ai-malvertising
-- `9a.bat` sample: shared with the research community via **MalwareBazaar (abuse.ch)**, identified by SHA256 `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0`; the uploaded archive is also indexed under SHA256 `419F513BE822E01EBC1494AC1C20D78DE701EAEAE5FA025625550EE518C41A5F` (password-protected zip, `infected` convention).
+- `9a.bat` sample: shared with the research community via **MalwareBazaar (abuse.ch)** inside the archive entry SHA256 [`419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f`](https://bazaar.abuse.ch/sample/419f513be822e01ebc1494ac1c20d78de701eaeae5fa025625550ee518c41a5f/) (zip, password `infected`), which contains `9a.bat` (SHA256 `197F763BCD619F96E8C8C9074C9F483CCDB31E49B6E51C115D086A48BED17DE0`) and a README. The archive page lists the script's own hash among its contents. On 6 October 2026 the same file was also uploaded as a standalone entry: [`197f763b…`](https://bazaar.abuse.ch/sample/197f763bcd619f96e8c8c9074c9f483ccdb31e49b6e51c115d086a48bed17de0/).
 - Other sensitive evidence (SRUDB.dat, full log with token): **not published**; available to accredited researchers upon motivated request.
-- This paper is deposited on Zenodo with DOI: [10.5281/zenodo.23170945](https://doi.org/10.5281/zenodo.23170945)
+- This paper is deposited on Zenodo: this version (v0.2) [10.5281/zenodo.23194008](https://doi.org/10.5281/zenodo.23194008); all versions, resolving to the latest, [10.5281/zenodo.23170944](https://doi.org/10.5281/zenodo.23170944); v0.1 [10.5281/zenodo.23170945](https://doi.org/10.5281/zenodo.23170945).
 
 ## Appendix A — Consolidated timeline
 
@@ -257,13 +256,12 @@ Applied post-incident recommendations: blocking the credit card saved in the bro
 | 16/01/2025 03:24:21 | Fake `.mp4` download from Facebook/Instagram ad |
 | 16/01/2025 03:26:00 | `xmetavip2` runtime creation |
 | 16/01/2025 03:26:14 | **Confirmed Telegram exfiltration** |
-| January 2025 (following days) | Anomaly detected on Facebook Ads: active Vietnamese campaign, collaborator removed, ad account closed, critical credentials rotated |
-| 16/01/2025 → 02/10/2026 | Persistence kept active **under observation**, per-logon execution |
+| 16/01/2025 → 02/10/2026 | Active persistence, per-logon execution |
 | 03/10/2026 | Analysis and remediation; evidence preservation |
 
 ## Appendix B — Full hashes
 
-See `hash_sha256.csv` in the accompanying corpus (campaigns A and B, including `python310.dll`, `Uninstall SoraAI.exe`, `elevate.exe`, `node.exe`).
+See the two `hash_sha256.csv` files in the accompanying corpus (campaign B: `9a.bat`, `pw.exe`, `python310.dll`; campaign A, in `sora_fake_app/`: `SoraAI.exe`, `app.asar`, `Uninstall SoraAI.exe`, `elevate.exe`). The `node.exe` hash is in `sora_fake_app/node_runtime_scaricato.txt`.
 
 ## Appendix C — Stealer log excerpt (redacted)
 
@@ -275,3 +273,8 @@ See `hash_sha256.csv` in the accompanying corpus (campaigns A and B, including `
     ?chat_id=-1002407933384&caption=IP: [victim public IP] Country: IT - Italy
     User: [username] Browser Data: CK: 504|PW: 19|CC: 1 &protect_content=True" 200
 ```
+
+## Changelog
+
+- **v0.2, 2026-10-06** — Revised after verification against the sample and the MalwareBazaar entry: §10 points to the actual MalwareBazaar entry (archive `419f513b…`, containing `9a.bat` `197F763B…`); §7 adds the Defender re-test; §4.3 refines the label count, the charset definition and the `mshta` assembly; §6 revises the ATT&CK mapping (T1102.001, T1105, T1036.003, T1567, T1204.002, T1608.001); Appendix B states where each hash is listed.
+- **v0.1, 2026-10-06** — First release, [10.5281/zenodo.23170945](https://doi.org/10.5281/zenodo.23170945).
